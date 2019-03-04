@@ -25,7 +25,7 @@ Please refer to the [developer wiki](https://github.com/oppia/oppia/wiki) for fu
 1. Create a new, empty folder called `opensource/` within your home folder. Navigate to it (`cd opensource`), then [fork and clone](https://github.com/oppia/oppia/wiki/Fork-and-Clone-Oppia) the Oppia repo. This will create a new folder named `opensource/oppia`.
 
 2. Navigate to `opensource/oppia/` and run:
-
+zx
   ```
     git checkout develop
     bash scripts/start.sh
