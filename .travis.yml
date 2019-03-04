@@ -50,6 +50,8 @@ env:
     - RUN_E2E_TESTS_TOPICS_AND_SKILLS_DASHBOARD=true
     - RUN_E2E_TESTS_TOPIC_AND_STORY_EDITOR=true
     - RUN_E2E_TESTS_USERS=true
+  global:
+    CC_TEST_REPORTER_ID=92669ee647a6a6aea052695c6ce9677a2d6e4d7451231fd7e9eb3aa3acb8b5ca
 
 matrix:
   allow_failures: []
@@ -98,6 +100,9 @@ before_install:
 - export CHROME_BIN=/usr/bin/google-chrome-stable
 - export DISPLAY=:99.0
 - bash -e /etc/init.d/xvfb start
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- ./cc-test-reporter before-build
 
 install:
 - pushd $TRAVIS_BUILD_DIR
@@ -165,3 +170,9 @@ before_cache:
   # Delete python bytecode to prevent cache rebuild.
   - find third_party -name "*.pyc" -print -delete
   - find backend_prod_files/extensions/ -name "*.pyc" -print -delete
+
+after_script:
+- ./cc-test-reporter format-coverage -t simplecov -o coverage/codeclimate.backend.json coverage/backend/.resultset.json # Format backend coverage
+- ./cc-test-reporter format-coverage -t lcov -o coverage/codeclimate.frontend.json coverage/frontend/lcov.info  # Format frontend coverage
+- ./cc-test-reporter sum-coverage coverage/codeclimate.*.json -p 2                  # Sum both coverage parts into coverage/codeclimate.json
+- if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi  # Upload coverage/codeclimate.json
