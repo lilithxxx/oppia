@@ -550,6 +550,7 @@ def _get_expression_from_node_if_one_exists(
     component = expression.callee.property.name
     if component not in components_to_check:
         return
+
     return expression
 
 
