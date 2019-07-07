@@ -2211,7 +2211,6 @@ class LintChecksManager(object):
                 print '(%s files checked, %s errors found)' % (
                     total_files_checked, total_error_count)
                 print summary_message
-
         return summary_messages
 
     def check_for_important_patterns_at_bottom_of_codeowners(
