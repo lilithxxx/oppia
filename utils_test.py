@@ -276,14 +276,6 @@ class UtilsTests(test_utils.GenericTestBase):
             Exception, 'The only directory in . should be assets/'):
             utils.get_exploration_components_from_dir('.')
 
-    def test_get_exploration_components_from_dir_with_multiple_yaml_files(self):
-        with self.assertRaisesRegexp(
-            Exception,
-            'More than one non-asset file specified for '
-            'core/tests/data/dummy_assets/assets'):
-            utils.get_exploration_components_from_dir(
-                'core/tests/data/dummy_assets/assets/')
-
     def test_get_exploration_components_from_dir_with_no_yaml_file(self):
         with self.assertRaisesRegexp(
             Exception,
