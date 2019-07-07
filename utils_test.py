@@ -252,3 +252,40 @@ class UtilsTests(test_utils.GenericTestBase):
     def test_is_valid_language_code(self):
         self.assertTrue(utils.is_valid_language_code('en'))
         self.assertFalse(utils.is_valid_language_code('unknown'))
+
+    def test_convert_png_to_data_url_with_non_png_image_raises_error(self):
+        favicon_filepath = os.path.join(
+            self.get_static_asset_filepath(), 'assets', 'favicon.ico')
+
+        with self.assertRaisesRegexp(
+            Exception, 'The given string does not represent a PNG image.'):
+            utils.convert_png_to_data_url(favicon_filepath)
+
+    def test_get_exploration_components_from_dir_with_invalid_path_raises_error(
+            self):
+        with self.assertRaisesRegexp(
+            Exception,
+            'Found invalid non-asset file '
+            'core/tests/load_tests/feedback_thread_summaries_test.py. '
+            'There should only be a single non-asset file, and it should have '
+            'a .yaml suffix.'):
+            utils.get_exploration_components_from_dir('core/tests/load_tests')
+
+        with self.assertRaisesRegexp(
+            Exception, 'The only directory in . should be assets/'):
+            utils.get_exploration_components_from_dir('.')
+
+    def test_get_exploration_components_from_dir_with_multiple_yaml_files(self):
+        with self.assertRaisesRegexp(
+            Exception,
+            'More than one non-asset file specified for '
+            'core/tests/data/dummy_assets/assets'):
+            utils.get_exploration_components_from_dir(
+                'core/tests/data/dummy_assets/assets/')
+
+    def test_get_exploration_components_from_dir_with_no_yaml_file(self):
+        with self.assertRaisesRegexp(
+            Exception,
+            'No yaml file specifed for core/tests/data/dummy_assets'):
+            utils.get_exploration_components_from_dir(
+                'core/tests/data/dummy_assets/')
