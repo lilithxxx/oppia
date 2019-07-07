@@ -1640,7 +1640,6 @@ class LintChecksManager(object):
         print summary_message
         if self.verbose_mode_enabled:
             print '----------------------------------------'
-
         return summary_messages
 
     def _match_line_breaks_in_controller_dependencies(self):
