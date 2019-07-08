@@ -872,7 +872,6 @@ class CustomHTMLParser(HTMLParser.HTMLParser):
             self.failed = True
 
         self.indentation_level -= 1
-
         if self.debug:
             print 'DEBUG MODE: End tag_stack'
             print self.tag_stack
